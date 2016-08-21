@@ -1,6 +1,12 @@
 ﻿'atv-win-3.0 -- Sam Nazarko
 'Last Build: 21/12/2009
 
+
+'Patched/Modified by DNA64
+'08/21/2016
+'I have done my best to leave everything intact, changing only what I felt was needed.
+
+
 '//
 '#########################################################################################################
 'I have done my best to comment everything so it is clear what is going on at each stage. If you are still 
@@ -37,7 +43,7 @@ Public Class psmain
         Dim LauncherChkBx_TT As New ToolTip
         'Set the tooltips
         FwPresetsCombo_TT.SetToolTip(FwPresetsCombo, "Select firmware version to pre-populate firmware URL box")
-        FwURLTb_TT.SetToolTip(FwUrlTB, "Enter a custom URL here if trying to download an old firmware")
+        FwURLTb_TT.SetToolTip(FwUrlTB, "Enter a custom URL here if trying to download a different firmware")
         CustomDmgBtn_TT.SetToolTip(CustomDmgBtn, "Create a patchstick from firmware on your hard drive")
         SSHChkBx_TT.SetToolTip(SSHChkBx, "SSH allows you to upload files and send commands to your Apple TV")
         LauncherChkBx_TT.SetToolTip(LauncherChkBx, "Launcher brings you XBMC and Boxee")
@@ -55,7 +61,7 @@ Public Class psmain
         '#UPDATE CHECKING (4)
         'Check for updates by scraping off of Google Code SVN
         ' 5/12/09 00:00 (strange time) - location changed for 3.0 version, update info in versioning directory of the trunk, tag is not needed.
-        'As of December, using: http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/Versioning/latest.dat
+        'As of December, using: http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/Versioning/latest.dat (Invalid 08-21-16 04:30)
 
         'Things I'm aware of:
 
@@ -79,7 +85,7 @@ Public Class psmain
             Dim WebVersion As String = String.Empty
             Using UpdWebClient As New System.Net.WebClient
                 'Download a file containing the latest version number.
-                WebVersion = UpdWebClient.DownloadString("http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/Versioning/latest.dat")
+                WebVersion = UpdWebClient.DownloadString("https://github.com/DNA64/atvusb-creator/tree/master/atv-win-3.0/Versioning/latest.dat")
             End Using
             Dim ServerVersion As New Version(WebVersion)
             'Harvest the version number of the current patchstick app. Stored in project information.
@@ -87,11 +93,11 @@ Public Class psmain
             'Compare. If the web reports a greater version than the current one, we inform the user of a new version.
             If ServerVersion > CurrentVersion Then
                 Dim UpdDialogRslt As DialogResult
-                UpdDialogRslt = MessageBox.Show("An update is available for Apple Tv Patchstick Creator" & vbCrLf & vbCrLf & "Would you like to download it?", "Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                UpdDialogRslt = MessageBox.Show("An update is available for Apple TV Patchstick Creator" & vbCrLf & vbCrLf & "Would you like to download it?", "Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 If UpdDialogRslt = Windows.Forms.DialogResult.Yes Then
                     'If they say yes we open the downloads page of atv-usb-creator in the default browser.
                     Dim ProcessProperties As New ProcessStartInfo
-                    ProcessProperties.FileName = "http://code.google.com/p/atvusb-creator/downloads/list"
+                    ProcessProperties.FileName = "https://github.com/DNA64/atvusb-creator/releases"
                     ProcessProperties.UseShellExecute = True
                     ProcessProperties.WindowStyle = ProcessWindowStyle.Maximized
                     Dim Process As Process = Process.Start(ProcessProperties)
@@ -305,11 +311,11 @@ Public Class psmain
         Dim ImageURL As String
         Select Case PackagesNum
             Case 2 'SSH only
-                ImageURL = "http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Images/atv-ssh.7z"
+                ImageURL = "https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Images/atv-ssh.7z"
             Case 4 ' Launcher only
-                ImageURL = "http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Images/atv-xbmc.7z"
+                ImageURL = "https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Images/atv-xbmc.7z"
             Case 6 ' SSH and Launcher - how it should be ;)
-                ImageURL = "http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Images/atv-xbmc-ssh.7z"
+                ImageURL = "https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Images/atv-xbmc-ssh.7z"
             Case Else
                 'Prevent null-ref
                 Application.Exit()
@@ -322,15 +328,15 @@ Public Class psmain
         If DlResources(ImageURL, "SoftwareImage.7z") = False Then DownloadSuccess = False
         'Download 7zip command line util.
         PsStatusLbl.Text = "Downloading 7z..."
-        If DlResources("http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Tools/7z.exe", "7z.exe") = False Then DownloadSuccess = False
-        If DlResources("http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Tools/7z.dll", "7z.dll") = False Then DownloadSuccess = False
+        If DlResources("https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Tools/7z.exe", "7z.exe") = False Then DownloadSuccess = False
+        If DlResources("https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Tools/7z.dll", "7z.dll") = False Then DownloadSuccess = False
         'Download boot.efi injector
         PsStatusLbl.Text = "Downloading injector..."
-        If DlResources("http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Tools/injector.exe", "injector.exe") = False Then DownloadSuccess = False
+        If DlResources("https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Tools/injector.exe", "injector.exe") = False Then DownloadSuccess = False
         'Download USB Image Tool
         PsStatusLbl.Text = "Downloading usbit..."
-        If DlResources("http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Tools/usbit.exe", "usbit.exe") = False Then DownloadSuccess = False
-        If DlResources("http://atvusb-creator.googlecode.com/svn/trunk/atv-win-3.0/WebDep/Tools/usbit32.dll", "usbit32.dll") = False Then DownloadSuccess = False
+        If DlResources("https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Tools/usbit.exe", "usbit.exe") = False Then DownloadSuccess = False
+        If DlResources("https://github.com/DNA64/atvusb-creator/blob/master/atv-win-3.0/WebDep/Tools/usbit32.dll", "usbit32.dll") = False Then DownloadSuccess = False
         'If any download has failed we will fail the patchstick
         If DownloadSuccess = False Then
             FailBuildPatchstick()
@@ -386,7 +392,7 @@ Public Class psmain
                 If LauncherChkBx.Checked = True Then
                     ConfirmMessage = ConfirmMessage & "You should update Launcher before downloading Boxee or XBMC" & vbCrLf & vbCrLf
                 End If
-                ConfirmMessage = ConfirmMessage & "Thank you for using Apple TV Patchstick Creator for Windows 3.0"
+                ConfirmMessage = ConfirmMessage & "Thank you for using Apple TV Patchstick Creator 3.0 for Windows"
                 MessageBox.Show(ConfirmMessage, "Patchstick Created", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Dim RunUSB As DialogResult
                 RunUSB = MessageBox.Show("Would you like to run USB Image Tool now?", "Apple TV Patchstick Creator", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -409,7 +415,7 @@ Public Class psmain
 
     Private Sub FailBuildPatchstick()
         'If something goes wrong during BuildPatchstick() we call this sub.
-        MessageBox.Show("An error occured creating your patchstick. Please check your Internet Connection and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        MessageBox.Show("An error occurred creating your patchstick. For more details visit: https://dna64.github.io/atvusb-creator/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         'Re-enable PS btn so they can have another go.
         CreatePSBtn.Enabled = True
         'Set status labels back
@@ -448,6 +454,9 @@ Public Class psmain
             Case "Apple TV OS 3.0.1"
                 FwUrlTB.Text = "http://mesu.apple.com/data/OS/061-7491.20091107.TVA31/2Z694-6004-003.dmg"
             Case Else
+			Case "Apple TV OS 3.0.2"
+                FwUrlTB.Text = "http://mesu.apple.com/data/OS/061-7495.20100210.TAVfr/2Z694-6013-013.dmg"
+            Case Else
                 MsgBox(FwPresetsCombo.SelectedText)
         End Select
     End Sub
@@ -455,7 +464,7 @@ Public Class psmain
     Private Sub HelpLnk_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles HelpLnk.LinkClicked
         'Use ShellExec to open the atvWindowsGuide in the user's default browser.
         Dim ProcessProperties As New ProcessStartInfo
-        ProcessProperties.FileName = "http://code.google.com/p/atvusb-creator/wiki/atvWindowsGuide"
+        ProcessProperties.FileName = "https://dna64.github.io/atvusb-creator/"
         ProcessProperties.UseShellExecute = True
         ProcessProperties.WindowStyle = ProcessWindowStyle.Maximized
         Dim Process As Process = Process.Start(ProcessProperties)
