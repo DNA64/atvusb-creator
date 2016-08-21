@@ -1,0 +1,6 @@
+{
+  "name": "atvusb-creator",
+  "tagline": "Create an AppleTV patchstick from a USB thumb drive.",
+  "body": "### atvusb-creator\r\nThis program creates a patchstick from a USB thumb drive for the Apple TV 1 (1st Generation).\r\nThis will **NOT** work on the newer generation (Black) Apple TV's.\r\n\r\n### About\r\nThis project was forked from https://github.com/davilla/atvusb-creator\r\n\r\n### FAQ\r\n**Q:** `An error occurred creating your patchstick. For more details visit: https://dna64.github.io/atvusb-creator/`  \r\n\r\n**A:** If you get this `error message` when trying to build a patchstick it's because it the program was unable to fetch a required file. This could be because you don't have an internet location, or because the file no longer exists, has moved, or been renamed.\r\n\r\n### TODO\r\n* Update to support latest firmware (3.0.2)\r\n* Add checks for pre-existing local files\r\n* Add redundancy for links and improve communication between program and user \r\n\r\n### COMPLETED\r\n* Fix dead/broken links to dependencies\r\n* Create new error message for `FailBuildPatchstick`\r\n\r\n### Support or Contact\r\nHaving troubles? Get in touch with me on [Twitter](https://twitter.com/DNA64) and I’ll try and help you sort them out.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
